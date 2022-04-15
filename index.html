@@ -37,6 +37,9 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
+
+    <!-- E-mail Post Script -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
   </head>
 
   <body>
@@ -802,13 +805,13 @@
                 ></iframe>
               </div>
             </div>
-
             <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
               <form
-                action="forms/contact.php"
+                action="PHPMailer/sendEmail.php"
                 method="post"
                 role="form"
                 class="php-email-form"
+                id="myForm"
               >
                 <div class="row">
                   <div class="form-group col-md-6">
@@ -818,6 +821,7 @@
                       name="name"
                       class="form-control"
                       id="name"
+                      placeholder="Enter your name"
                       required
                     />
                   </div>
@@ -828,6 +832,7 @@
                       class="form-control"
                       name="email"
                       id="email"
+                      placeholder="Enter your e-mail address"
                       required
                     />
                   </div>
@@ -839,6 +844,7 @@
                     class="form-control"
                     name="subject"
                     id="subject"
+                    placeholder="Enter subject"
                     required
                   />
                 </div>
@@ -847,6 +853,8 @@
                   <textarea
                     class="form-control"
                     name="message"
+                    placeholder="Type your message"
+                    id="body"
                     rows="10"
                     required
                   ></textarea>
@@ -859,7 +867,9 @@
                   </div>
                 </div>
                 <div class="text-center">
-                  <button type="submit">Send Message</button>
+                  <button type="submit" onclick="sendEmail()">
+                    Send Message
+                  </button>
                 </div>
               </form>
             </div>
@@ -896,6 +906,39 @@
     <script src="assets/vendor/typed.js/typed.min.js"></script>
     <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Post Mail Script -->
+    <script type="text/javascript">
+      function sendEmail() {
+        var name = $("#name");
+        var email = $("#email");
+        var subject = $("#subject");
+        var body = $("#body");
+
+        if (
+          isNotEmpty(name) &&
+          isNotEmpty(email) &&
+          isNotEmpty(subject) &&
+          isNotEmpty(body)
+        ) {
+          $.ajax({
+            url: "PHPMailer/sendEmail.php",
+            method: "POST",
+            dataType: "json",
+            data: {
+              name: name.val(),
+              email: email.val(),
+              subject: subject.val(),
+              body: body.val(),
+            },
+            success: function (response) {
+              $("#myform")[0].reset();
+            },
+          });
+        }
+      }
+    </script>
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
