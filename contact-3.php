@@ -25,7 +25,7 @@ $subject = 'New message from contact form';
 
 $smtpHost = 'smtp.gmail.com';
 $smtpUsername = 'bgcm35@gmail.com';
-$smtpPassword = 'Ma2301li.';
+$smtpPassword = '';
 
 // form field names and their translations.
 // array variable name => Text to appear in the email
